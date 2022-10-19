@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 class SignupScreen extends StatelessWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => const SignupScreen());
-  }
+  static Page<void> page() => const MaterialPage<void>(child: SignupScreen());
 
   @override
   Widget build(BuildContext context) {

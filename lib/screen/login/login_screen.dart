@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
+  static Page<void> page() => const MaterialPage<void>(child: LoginScreen());
 
-class _LoginScreenState extends State<LoginScreen> {
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: LoginForm(),
+    return Scaffold(
+      appBar: AppBar(title: const Text("Login")),
+      body: const SafeArea(
+        child: Center(child: LoginForm()),
       ),
     );
   }
@@ -64,6 +63,7 @@ class _LoginButton extends StatelessWidget {
     return Container();
   }
 }
+
 class _SignupButton extends StatelessWidget {
   const _SignupButton({Key? key}) : super(key: key);
 
