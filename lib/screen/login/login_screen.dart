@@ -32,17 +32,20 @@ class LoginForm extends StatelessWidget {
           //do something when error
         }
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          _EmailInput(),
-          SizedBox(height: 5),
-          _PasswordInput(),
-          SizedBox(height: 5),
-          _LoginButton(),
-          SizedBox(height: 5),
-          _SignupButton()
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            _EmailInput(),
+            SizedBox(height: 5),
+            _PasswordInput(),
+            SizedBox(height: 5),
+            _LoginButton(),
+            SizedBox(height: 5),
+            _SignupButton()
+          ],
+        ),
       ),
     );
   }
@@ -97,6 +100,8 @@ class _LoginButton extends StatelessWidget {
         return state.status == LoginStatus.submitting
             ? const CircularProgressIndicator()
             : ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.blue, fixedSize: const Size(200, 40)),
                 onPressed: () {
                   context.read<LoginCubit>().loginWithCredentials();
                 },
@@ -113,7 +118,7 @@ class _SignupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            primary: Colors.white, fixedSize: const Size(200, 40)),
+            primary: Colors.black, fixedSize: const Size(200, 40)),
         onPressed: () => Navigator.of(context).push<void>(
               SignupScreen.route(),
             ),
