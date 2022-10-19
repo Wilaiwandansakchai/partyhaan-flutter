@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:partyhaan/repositories/auth_repository.dart';
 import 'package:partyhaan/screen/login/cubic/login_cubit.dart';
 
-import '../signUp/sign_up_screen.dart';
+import '../signUp/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
