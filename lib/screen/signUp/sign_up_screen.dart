@@ -5,6 +5,10 @@ class SignupScreen extends StatelessWidget {
 
   static Page<void> page() => const MaterialPage<void>(child: SignupScreen());
 
+  static Route<void> route() {
+    return MaterialPageRoute<void>(builder: (_) => const SignupScreen());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
