@@ -4,6 +4,7 @@ import 'package:partyhaan/customs/custom_style.dart';
 import 'package:partyhaan/customs/custom_value.dart';
 
 import '../../../models/party_model.dart';
+import '../../partyDetail/view/party_detail_screen.dart';
 import '../cubic/home_cubit.dart';
 
 class PartyView extends StatelessWidget {
@@ -18,11 +19,19 @@ class PartyView extends StatelessWidget {
           itemCount: partyList.length,
           itemBuilder: (BuildContext context, int index) {
             Party party = state.partyList[index];
-            return _PartyTile(
-              party: party,
+            return GestureDetector(
+              onTap: () => _onClickPartyDetail(party, context),
+              child: _PartyTile(
+                party: party,
+              ),
             );
           });
     });
+  }
+
+  void _onClickPartyDetail(Party party, BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => PartyDetailScreen(party: party)));
   }
 }
 

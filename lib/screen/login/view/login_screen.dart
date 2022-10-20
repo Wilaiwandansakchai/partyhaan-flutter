@@ -6,6 +6,7 @@ import 'package:partyhaan/screen/login/cubic/login_cubit.dart';
 
 import '../../../customs/custom_color.dart';
 import '../../../customs/custom_image.dart';
+import '../../../customs/custom_style.dart';
 import '../../../customs/custom_text.dart';
 import '../../signup/view/signup_screen.dart';
 
@@ -121,17 +122,19 @@ class _LoginButton extends StatelessWidget {
       builder: (context, state) {
         return state.status == LoginStatus.submitting
             ? const CircularProgressIndicator()
-            : ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  minimumSize:
-                      const Size.fromHeight(IValue.mainBtnHeight), // NEW
-                ),
-                onPressed: () {
-                  context.read<LoginCubit>().loginWithCredentials();
-                },
-                child: const Text(IText.loginLoginBtn),
-              );
+            : Padding(
+                padding: const EdgeInsets.all(IValue.mainPadding),
+                child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: IColors.btnYellow,
+                        borderRadius: BorderRadius.circular(IValue.btnRadius)),
+                    child: TextButton(
+                      onPressed: () =>
+                          context.read<LoginCubit>().loginWithCredentials(),
+                      child: Text(IText.loginLoginBtn,
+                          style: ITextStyles.partyBtn),
+                    )));
       },
     );
   }

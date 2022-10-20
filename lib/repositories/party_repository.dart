@@ -11,4 +11,8 @@ class PartyRepository {
   Future<void> createParty({required Party party}) {
     return _apiService.createParty(party: party);
   }
+
+  Future<void> joinParty({required Party party}) {
+    return _apiService.joinParty(party: party);
+  }
 }

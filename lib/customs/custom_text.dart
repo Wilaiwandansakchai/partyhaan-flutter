@@ -14,4 +14,8 @@ class IText {
   //party
   static const String navParty = "สินค้า";
 
+  //
+  static const String partyJoinBtn = "เข้าร่วม";
+
+
 }

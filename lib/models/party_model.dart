@@ -2,16 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Party {
   final Timestamp createDate;
-
   final String image;
   final String name;
   final String product;
   final int maxCount;
   final int count;
   final int price;
-
   final List<String> member;
   final String host;
+   String? id;
 
   Party(
       {required this.createDate,
@@ -22,10 +21,15 @@ class Party {
       required this.count,
       required this.price,
       required this.member,
-      required this.host});
+      required this.host,
+      this.id});
 
   List<Object> get props =>
       [createDate, image, name, product, maxCount, count, price, member, host];
+
+  String get userHost => host;
+
+  List<String> get userMember => member;
 
   factory Party.fromJson(Map<String, dynamic> json) => _$PartyFromJson(json);
 

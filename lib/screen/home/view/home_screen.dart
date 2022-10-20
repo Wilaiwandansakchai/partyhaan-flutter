@@ -9,7 +9,6 @@ import '../../../blocs/party_bloc/party_bloc.dart';
 import '../../../customs/custom_color.dart';
 import '../../../customs/custom_style.dart';
 import '../../../customs/custom_text.dart';
-import '../../../customs/custom_value.dart';
 import '../../createParty/view/create_party_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -27,8 +26,7 @@ class HomeScreen extends StatelessWidget {
     return RepositoryProvider.value(
         value: partyRepository,
         child: BlocProvider(
-          create: (_) => PartyBloc(partyRepository: partyRepository)
-            ..add(FetchPartyList()),
+          create: (_) => PartyBloc(partyRepository: partyRepository),
           child: const HomeView(),
         ));
   }

@@ -17,4 +17,8 @@ class ITextStyles {
 
   static TextStyle partyTileCount =
   const TextStyle(fontSize: 15.0, color: Colors.grey);
+
+  static TextStyle partyBtn =
+  const TextStyle(fontSize: 15.0, color: Colors.white);
+
 }

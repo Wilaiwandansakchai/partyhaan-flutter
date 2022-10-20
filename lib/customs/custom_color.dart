@@ -9,6 +9,9 @@ class IColors {
 
   static const Color textPrice = Color(0xFF717171);
 
+  static const Color btnYellow = Color(0xFFffb818);
+
+
 
 
 
