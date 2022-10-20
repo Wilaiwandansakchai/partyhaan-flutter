@@ -20,20 +20,8 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       _partyListSubscription = _partyRepository.partyList
           .listen((event) => emit(HomeState(partyList: event)));
+
     } catch (_) {}
   }
 
-  Future<void> createParty() async {
-    try {
-     await _partyRepository.createParty(
-          party: Party(
-              createDate: Timestamp.now(),
-              count: 3,
-              image: "image",
-              mode: "mode",
-              name: "name",
-              price: 300,
-              title: "title"));
-    } catch (_) {}
-  }
 }

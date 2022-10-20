@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:partyhaan/customs/custom_value.dart';
 import 'package:partyhaan/repositories/auth_repository.dart';
 import 'package:partyhaan/screen/login/cubic/login_cubit.dart';
 
+import '../../../customs/custom_color.dart';
+import '../../../customs/custom_image.dart';
+import '../../../customs/custom_text.dart';
 import '../../signup/view/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -35,22 +39,36 @@ class LoginForm extends StatelessWidget {
           //do something when error
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+      child: Container(
+        color: IColors.bgBlue,
+        padding: const EdgeInsets.only(
+            right: IValue.mainPaddingRL, left: IValue.mainPaddingRL),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
+            _LogoImage(),
+            SizedBox(height: IValue.loginLogoPaddingB),
             _EmailInput(),
-            SizedBox(height: 5),
+            SizedBox(height: IValue.mainBoxHeight),
             _PasswordInput(),
-            SizedBox(height: 5),
+            SizedBox(height: IValue.mainBoxHeight),
             _LoginButton(),
-            SizedBox(height: 5),
+            SizedBox(height: IValue.mainBoxHeight),
             _SignupButton()
           ],
         ),
       ),
     );
+  }
+}
+
+class _LogoImage extends StatelessWidget {
+  const _LogoImage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(IImage.loginLogo,
+        width: MediaQuery.of(context).size.width, fit: BoxFit.fitWidth);
   }
 }
 
@@ -104,11 +122,15 @@ class _LoginButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: Colors.blue, fixedSize: const Size(200, 40)),
+                  primary: Colors.blue,
+                  minimumSize:
+                      const Size.fromHeight(IValue.mainBtnHeight), // NEW
+                ),
                 onPressed: () {
                   context.read<LoginCubit>().loginWithCredentials();
                 },
-                child: const Text("Login"));
+                child: const Text(IText.loginLoginBtn),
+              );
       },
     );
   }
@@ -119,12 +141,15 @@ class _SignupButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            primary: Colors.black, fixedSize: const Size(200, 40)),
-        onPressed: () => Navigator.of(context).push<void>(
-              SignupScreen.route(),
-            ),
-        child: const Text("Register"));
+    return Align(
+        alignment: Alignment.centerRight,
+        child: GestureDetector(
+            onTap: () => Navigator.of(context).push<void>(
+                  SignupScreen.route(),
+                ),
+            child: const Padding(
+              padding: EdgeInsets.all(IValue.mainPadding),
+              child: Text(IText.loginRegisterBtn),
+            )));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:partyhaan/repositories/party_repository.dart';
+import 'package:partyhaan/screen/createParty/view/create_party_screen.dart';
 import 'package:partyhaan/screen/home/cubic/home_cubit.dart';
 
 import '../../../blocs/app_bloc/app_bloc.dart';
@@ -64,10 +65,10 @@ class Test extends StatelessWidget {
           child: Column(
             children: [
               TextButton(
-                  onPressed: () {
-                    context.read<HomeCubit>().createParty();
-                  },
-                  child: Text("add")),
+                  onPressed: () => Navigator.of(context).push<void>(
+                        CreatePartyScreen.route(),
+                      ),
+                  child: Text("open create")),
               Expanded(
                 child: BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
@@ -81,8 +82,7 @@ class Test extends StatelessWidget {
                             child: Row(
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: NetworkImage(party.image)
-                                ),
+                                    backgroundImage: NetworkImage(party.image)),
                                 Text('Entry ${party.name}'),
                               ],
                             ),
