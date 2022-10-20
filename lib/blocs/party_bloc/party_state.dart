@@ -1,6 +1,13 @@
 part of 'party_bloc.dart';
 
-@immutable
-abstract class PartyState {}
+class PartyState extends Equatable {
+  final List<Party> partyList;
 
-class PartyInitial extends PartyState {}
+  const PartyState._({required this.partyList});
+
+  const PartyState.updatePartyList(List<Party> partyList)
+      : this._(partyList: partyList);
+
+  @override
+  List<Object?> get props => [partyList];
+}

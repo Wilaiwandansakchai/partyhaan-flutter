@@ -10,6 +10,7 @@ void main() async {
 
   Bloc.observer = AppBlocObserver();
   await Firebase.initializeApp();
+
   final AuthRepository authRepository = AuthRepository();
 
   runApp(App(authRepository: authRepository));
