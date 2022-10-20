@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/app/app_bloc.dart';
+import '../../../blocs/app/app_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,7 +14,6 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Login"),
           actions: [
             IconButton(
                 onPressed: () =>
@@ -34,7 +33,8 @@ class HomeScreen extends StatelessWidget {
                     user.photo != null ? NetworkImage(user.photo!) : null,
                 child: user.photo == null ? const Icon(Icons.person) : null,
               ),
-              Text(user.id)
+              Text(user.id),
+              Text(user.name ?? "name")
             ],
           ),
         )));

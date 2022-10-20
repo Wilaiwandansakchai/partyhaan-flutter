@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:partyhaan/repositories/auth_repository.dart';
 import 'package:partyhaan/screen/login/cubic/login_cubit.dart';
 
-import '../signUp/signup_screen.dart';
+import '../../signup/view/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,7 +13,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
       body: BlocProvider(
           create: (_) => LoginCubit(context.read<AuthRepository>()),
           child: const LoginForm()),

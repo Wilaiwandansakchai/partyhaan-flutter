@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:partyhaan/screen/signup/cubic/signup_cubit.dart';
 
-import '../../repositories/auth_repository.dart';
+import '../../../repositories/auth_repository.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -16,7 +16,6 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Signup")),
       body: BlocProvider(
           create: (_) => SignupCubit(context.read<AuthRepository>()),
           child: const SignupForm()),

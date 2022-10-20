@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:partyhaan/screen/home/home_screen.dart';
-import 'package:partyhaan/screen/login/login_screen.dart';
+import 'package:partyhaan/screen/home/view/home_screen.dart';
+import 'package:partyhaan/screen/login/view/login_screen.dart';
 
 import '../../blocs/app/app_bloc.dart';
 
