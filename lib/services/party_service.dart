@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:partyhaan/models/create_party_model.dart';
 
 import '../models/party_model.dart';
 import 'firebase_service.dart';
@@ -6,7 +7,7 @@ import 'firebase_service.dart';
 abstract class PartyService {
   Stream<List<Party>> get partyList;
 
-  Future<void> createParty({required Party party});
+  Future<void> createParty({required CreateParty createParty});
 
   Future<void> joinParty(
       {required Party party, required List<String> memberList});
@@ -31,14 +32,14 @@ class PartyServiceImpl implements PartyService {
   }
 
   @override
-  Future<void> createParty({required Party party}) {
+  Future<void> createParty({required CreateParty createParty}) {
     try {
       const String path = "events";
       return FirebaseService()
           .firestore
           .collection(path)
           .doc()
-          .set(party.toJson());
+          .set(createParty.toJson());
     } catch (e) {
       throw e.toString();
     }

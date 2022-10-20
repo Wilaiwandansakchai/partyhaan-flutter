@@ -25,7 +25,6 @@ class SignupCubit extends Cubit<SignupState> {
       await _authRepository.signup(
           email: state.email, password: state.password);
       emit(state.copyWith(status: SignupStatus.success));
-
     } catch (_) {}
   }
 }

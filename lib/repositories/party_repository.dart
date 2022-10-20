@@ -1,3 +1,4 @@
+import '../models/create_party_model.dart';
 import '../models/party_model.dart';
 import '../services/party_service.dart';
 
@@ -8,8 +9,8 @@ class PartyRepository {
     return _apiService.partyList;
   }
 
-  Future<void> createParty({required Party party}) {
-    return _apiService.createParty(party: party);
+  Future<void> createParty({required CreateParty createParty}) {
+    return _apiService.createParty(createParty: createParty);
   }
 
   Future<void> joinParty({

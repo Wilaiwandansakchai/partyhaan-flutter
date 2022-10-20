@@ -32,8 +32,6 @@ class Party {
   List<String> get userMember => member;
 
   factory Party.fromJson(Map<String, dynamic> json) => _$PartyFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PartyToJson(this);
 }
 
 Party _$PartyFromJson(Map<String, dynamic> json) {
@@ -49,14 +47,3 @@ Party _$PartyFromJson(Map<String, dynamic> json) {
     host: json['host'] as String,
   );
 }
-
-Map<String, dynamic> _$PartyToJson(Party instance) => <String, dynamic>{
-      "createDate": Timestamp.now(),
-      "image": instance.image,
-      "name": instance.name,
-      "product": instance.product,
-      "maxCount": instance.maxCount,
-      "price": instance.price,
-      "member": instance.member,
-      "host": instance.host
-    };
