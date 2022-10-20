@@ -17,5 +17,7 @@ class IText {
   //
   static const String partyJoinBtn = "เข้าร่วม";
 
+  //createParty
+  static const String navCreateParty = "สร้างปาร์ตี้";
 
 }

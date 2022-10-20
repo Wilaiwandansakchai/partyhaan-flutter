@@ -12,7 +12,10 @@ class PartyRepository {
     return _apiService.createParty(party: party);
   }
 
-  Future<void> joinParty({required Party party}) {
-    return _apiService.joinParty(party: party);
+  Future<void> joinParty({
+    required Party party,
+    required List<String> memberList,
+  }) {
+    return _apiService.joinParty(party: party, memberList: memberList);
   }
 }

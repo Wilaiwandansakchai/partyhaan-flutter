@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../blocs/app_bloc/app_bloc.dart';
 import '../../../customs/custom_color.dart';
 import '../../../customs/custom_style.dart';
 import '../../../customs/custom_text.dart';
@@ -18,9 +19,10 @@ class PartyDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.select((AppBloc bloc) => bloc.state.user);
     PartyRepository partyRepository = PartyRepository();
     return BlocProvider(
-        create: (_) => PartyDetailCubit(partyRepository, party: _party),
+        create: (_) => PartyDetailCubit(partyRepository, party: _party, user: user),
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: IColors.nav,

@@ -5,9 +5,11 @@ import 'firebase_service.dart';
 
 abstract class PartyService {
   Stream<List<Party>> get partyList;
-  Future<void> createParty({required Party party});
-  Future<void> joinParty({required Party party});
 
+  Future<void> createParty({required Party party});
+
+  Future<void> joinParty(
+      {required Party party, required List<String> memberList});
 }
 
 class PartyServiceImpl implements PartyService {
@@ -43,22 +45,20 @@ class PartyServiceImpl implements PartyService {
   }
 
   @override
-  Future<void> joinParty({required Party party}) {
+  Future<void> joinParty(
+      {required Party party, required List<String> memberList}) async {
     try {
       print("party id : ${party.id}");
       print("party name : ${party.name}");
 
       const String path = "events";
-      // return FirebaseService()
-      //     .firestore
-      //     .collection(path)
-      //     .doc()
-      //     .set(party.toJson());
-      throw "t";
+      DocumentReference ref =
+          FirebaseService().firestore.collection(path).doc(party.id);
+      await ref.set({"member": memberList.toList()}, SetOptions(merge: true));
 
+      return;
     } catch (e) {
       throw e.toString();
     }
   }
-
 }
