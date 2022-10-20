@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:partyhaan/screen/signup/cubic/signup_cubit.dart';
 
+import '../../../customs/custom_color.dart';
+import '../../../customs/custom_text.dart';
+import '../../../customs/custom_value.dart';
 import '../../../repositories/auth_repository.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -16,6 +19,11 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white, //modify arrow color from here..
+        ),
+      ),
       body: BlocProvider(
           create: (_) => SignupCubit(context.read<AuthRepository>()),
           child: const SignupForm()),
@@ -40,11 +48,15 @@ class SignupForm extends StatelessWidget {
           Navigator.of(context).pop();
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.all(5.0),
+      child: Container(
+        color: IColors.bgBlue,
+        padding: const EdgeInsets.only(
+            right: IValue.mainPaddingRL, left: IValue.mainPaddingRL),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
+            _TilteText(),
+            SizedBox(height: IValue.loginLogoPaddingB),
             _EmailInput(),
             SizedBox(height: 5),
             _PasswordInput(),
@@ -53,6 +65,18 @@ class SignupForm extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _TilteText extends StatelessWidget {
+  const _TilteText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text(
+      IText.loginRegisterBtn,
+      style: TextStyle(fontSize: 20),
     );
   }
 }
@@ -107,10 +131,16 @@ class _SignupButton extends StatelessWidget {
         return state.status == SignupStatus.submitting
             ? const CircularProgressIndicator()
             : ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  minimumSize:
+                      const Size.fromHeight(IValue.mainBtnHeight), // NEW
+                ),
                 onPressed: () {
                   context.read<SignupCubit>().signupFormSubmitted();
                 },
-                child: const Text("Signup"));
+                child: const Text(IText.signupBtn),
+              );
       },
     );
   }

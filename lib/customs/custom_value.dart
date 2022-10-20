@@ -6,6 +6,12 @@ class IValue {
 
   static const double loginLogoPaddingB = 40.0;
 
+  //party tile
+  static const double partyTileImageHeight = 160.0;
+  static const double partyTileImageRadius = 20.0;
+
+
+
 
 
 

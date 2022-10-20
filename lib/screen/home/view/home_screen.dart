@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:partyhaan/repositories/party_repository.dart';
-import 'package:partyhaan/screen/createParty/view/create_party_screen.dart';
 import 'package:partyhaan/screen/home/cubic/home_cubit.dart';
+import 'package:partyhaan/screen/home/view/party_view.dart';
 
 import '../../../blocs/app_bloc/app_bloc.dart';
 import '../../../blocs/party_bloc/party_bloc.dart';
-import '../../../models/party_model.dart';
+import '../../../customs/custom_color.dart';
+import '../../../customs/custom_style.dart';
+import '../../../customs/custom_text.dart';
+import '../../../customs/custom_value.dart';
+import '../../createParty/view/create_party_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,77 +40,35 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: IColors.nav,
+        title: Text(IText.navParty,style: ITextStyles.navTitle,),
+        actions: [
+          IconButton(
+              onPressed: () =>
+                  context.read<AppBloc>().add(AppLogoutRequested()),
+              icon: const Icon(Icons.exit_to_app))
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () => Navigator.of(context).push<void>(
+          CreatePartyScreen.route(),
+        ),
+        child: const Icon(Icons.add,color: Colors.grey,),
+      ), // Thi
       body: BlocProvider(
           create: (_) {
             final cubit = HomeCubit(context.read<PartyRepository>());
             cubit.fetchPartyList();
             return cubit;
           },
-          child: const Test()),
+          child: SafeArea(
+              child: Container(
+            color: IColors.bgOrange,
+            child: const Expanded(child: PartyView()),
+          ))),
     );
   }
-}
 
-class Test extends StatelessWidget {
-  const Test({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: () =>
-                    context.read<AppBloc>().add(AppLogoutRequested()),
-                icon: const Icon(Icons.exit_to_app))
-          ],
-        ),
-        body: SafeArea(
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () => Navigator.of(context).push<void>(
-                        CreatePartyScreen.route(),
-                      ),
-                  child: Text("open create")),
-              Expanded(
-                child: BlocBuilder<HomeCubit, HomeState>(
-                  builder: (context, state) {
-                    return ListView.builder(
-                        padding: const EdgeInsets.all(8),
-                        itemCount: state.partyList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          Party party = state.partyList[index];
-                          return Container(
-                            height: 50,
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                    backgroundImage: NetworkImage(party.image)),
-                                Text('Entry ${party.name}'),
-                              ],
-                            ),
-                          );
-                        });
-                  },
-                ),
-              )
-            ],
-          ),
-        ));
-  }
-}
-
-class _PartyListview extends StatelessWidget {
-  const _PartyListview({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<PartyBloc, PartyState>(
-      builder: (context, state) {
-        state.partyList;
-        return Text("party : ${state.partyList}");
-      },
-    );
-  }
 }

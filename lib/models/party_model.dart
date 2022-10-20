@@ -2,26 +2,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Party {
   final Timestamp createDate;
-  final int count;
-  final int maxCount;
+
   final String image;
-  final String mode;
   final String name;
+  final String product;
+  final int maxCount;
+  final int count;
   final int price;
-  final String title;
+
+  final List<String> member;
+  final String host;
 
   Party(
       {required this.createDate,
-      required this.count,
-      required this.maxCount,
       required this.image,
-      required this.mode,
       required this.name,
+      required this.product,
+      required this.maxCount,
+      required this.count,
       required this.price,
-      required this.title});
+      required this.member,
+      required this.host});
 
   List<Object> get props =>
-      [createDate, count, image, mode, name, price, title, maxCount];
+      [createDate, image, name, product, maxCount, count, price, member, host];
 
   factory Party.fromJson(Map<String, dynamic> json) => _$PartyFromJson(json);
 
@@ -31,23 +35,24 @@ class Party {
 Party _$PartyFromJson(Map<String, dynamic> json) {
   return Party(
     createDate: json['createDate'] as Timestamp,
-    count: json['count'] as int,
     image: json['image'] as String,
-    mode: json['mode'] as String,
     name: json['name'] as String,
-    price: json['price'] as int,
+    product: json['product'] as String,
     maxCount: json['maxCount'] as int,
-    title: json['title'] as String,
+    count: json['count'] as int,
+    price: json['price'] as int,
+    member: (json['member'] as List<dynamic>).map((e) => "$e").toList(),
+    host: json['host'] as String,
   );
 }
 
 Map<String, dynamic> _$PartyToJson(Party instance) => <String, dynamic>{
       "createDate": Timestamp.now(),
-      "count": instance.count,
       "image": instance.image,
-      "mode": instance.mode,
       "name": instance.name,
+      "product": instance.product,
       "maxCount": instance.maxCount,
       "price": instance.price,
-      "title": instance.title
+      "member": instance.member,
+      "host": instance.host
     };

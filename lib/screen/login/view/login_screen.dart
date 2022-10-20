@@ -84,7 +84,7 @@ class _EmailInput extends StatelessWidget {
           onChanged: (email) {
             context.read<LoginCubit>().emailChanged(email);
           },
-          decoration: const InputDecoration(labelText: "Email"),
+          decoration: const InputDecoration(labelText: IText.loginEmailHint),
         );
       },
     );
@@ -103,7 +103,8 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (password) {
             context.read<LoginCubit>().passwordChanged(password);
           },
-          decoration: const InputDecoration(labelText: "Password"),
+          obscureText: true,
+          decoration: const InputDecoration(labelText: IText.loginPasswordHint),
         );
       },
     );
