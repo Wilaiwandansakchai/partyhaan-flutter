@@ -10,7 +10,9 @@ class Party {
   final int price;
   final List<String> member;
   final String host;
-   String? id;
+  String? id;
+  bool? isHost;
+  bool? isMember;
 
   Party(
       {required this.createDate,
@@ -22,7 +24,9 @@ class Party {
       required this.price,
       required this.member,
       required this.host,
-      this.id});
+      this.id,
+      this.isHost,
+      this.isMember});
 
   List<Object> get props =>
       [createDate, image, name, product, maxCount, count, price, member, host];

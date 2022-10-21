@@ -1,6 +1,12 @@
 part of 'party_detail_cubit.dart';
 
-@immutable
-abstract class PartyDetailState {}
+enum UserStatus { none, join, host }
 
-class PartyDetailInitial extends PartyDetailState {}
+class PartyDetailState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
+class PartyDetailSuccessState extends PartyDetailState {}
+
+class PartyDetailFailState extends PartyDetailState {}

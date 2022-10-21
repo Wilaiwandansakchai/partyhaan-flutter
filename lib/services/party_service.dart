@@ -11,6 +11,8 @@ abstract class PartyService {
 
   Future<void> joinParty(
       {required Party party, required List<String> memberList});
+
+  Future<void> deleteParty({required Party party});
 }
 
 class PartyServiceImpl implements PartyService {
@@ -49,14 +51,23 @@ class PartyServiceImpl implements PartyService {
   Future<void> joinParty(
       {required Party party, required List<String> memberList}) async {
     try {
-      print("party id : ${party.id}");
-      print("party name : ${party.name}");
-
       const String path = "events";
       DocumentReference ref =
           FirebaseService().firestore.collection(path).doc(party.id);
       await ref.set({"member": memberList.toList()}, SetOptions(merge: true));
+      return;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 
+  @override
+  Future<void> deleteParty({required Party party}) async {
+    try {
+      const String path = "events";
+      DocumentReference ref =
+          FirebaseService().firestore.collection(path).doc(party.id);
+      await ref.delete();
       return;
     } catch (e) {
       throw e.toString();

@@ -19,4 +19,10 @@ class PartyRepository {
   }) {
     return _apiService.joinParty(party: party, memberList: memberList);
   }
+
+  Future<void> deleteParty({
+    required Party party,
+  }) {
+    return _apiService.deleteParty(party: party);
+  }
 }

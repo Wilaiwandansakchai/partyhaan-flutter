@@ -38,6 +38,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.select((AppBloc bloc) => bloc.state.user);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: IColors.nav,
@@ -62,7 +63,8 @@ class HomeView extends StatelessWidget {
       ), // Thi
       body: BlocProvider(
           create: (_) {
-            final cubit = HomeCubit(context.read<PartyRepository>());
+            final cubit =
+                HomeCubit(context.read<PartyRepository>(), user: user);
             cubit.fetchPartyList();
             return cubit;
           },

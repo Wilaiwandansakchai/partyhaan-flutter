@@ -25,46 +25,68 @@ class PartyDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.select((AppBloc bloc) => bloc.state.user);
-    PartyRepository partyRepository = PartyRepository();
     return BlocProvider(
-        create: (_) =>
-            PartyDetailCubit(partyRepository, party: _party, user: user),
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: IColors.nav,
-            title: Text(
-              IText.navParty,
-              style: ITextStyles.navTitle,
-            ),
-          ),
-          bottomNavigationBar: const _BottomNav(),
-          body: SafeArea(
-            child: Container(
-                color: IColors.bgEgg, child: _PartyDetailView(party: _party)),
-          ),
-        ));
+        create: (_) => PartyDetailCubit(context.read<PartyRepository>(),
+            party: _party, user: user),
+        child: BlocListener<PartyDetailCubit, PartyDetailState>(
+            listener: (context, state) {
+              if (state is PartyDetailSuccessState) {
+                Navigator.of(context).pop();
+              } else if (state is PartyDetailFailState) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    const SnackBar(content: Text(IText.errorText)),
+                  );
+              }
+            },
+            child: _PartyDetailView(party: _party)));
   }
 }
 
 class _BottomNav extends StatelessWidget {
-  const _BottomNav({Key? key}) : super(key: key);
+  final Party _party;
+
+  const _BottomNav({Key? key, required Party party})
+      : _party = party,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: IColors.bgEgg,
-      child: Padding(
-          padding: const EdgeInsets.all(IValue.mainPadding),
-          child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: IColors.btnYellow,
-                  borderRadius: BorderRadius.circular(IValue.btnRadius)),
-              child: TextButton(
-                onPressed: () => context.read<PartyDetailCubit>().joinParty(),
-                child: Text(IText.partyJoinBtn, style: ITextStyles.partyBtn),
-              ))),
-    );
+        color: IColors.bgEgg,
+        child: (_party.isHost!) ? _hostBtn(context) : _joinBtn(context));
+  }
+
+  _joinBtn(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(IValue.mainPadding),
+        child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+                color:
+                    (_party.isMember!) ? IColors.btnDisable : IColors.btnYellow,
+                borderRadius: BorderRadius.circular(IValue.btnRadius)),
+            child: TextButton(
+              onPressed: (_party.isMember!)
+                  ? null
+                  : () => context.read<PartyDetailCubit>().joinParty(),
+              child: Text(IText.partyJoinBtn, style: ITextStyles.partyBtn),
+            )));
+  }
+
+  _hostBtn(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(IValue.mainPadding),
+        child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+                color: IColors.btnGreen,
+                borderRadius: BorderRadius.circular(IValue.btnRadius)),
+            child: TextButton(
+              onPressed: () => context.read<PartyDetailCubit>().closeParty(),
+              child: Text(IText.partyCloseBtn, style: ITextStyles.partyBtn),
+            )));
   }
 }
 
@@ -77,8 +99,20 @@ class _PartyDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [_imageView(context), _titleView()],
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: IColors.nav,
+        title: Text(
+          IText.navParty,
+          style: ITextStyles.navTitle,
+        ),
+      ),
+      bottomNavigationBar: _BottomNav(party: _party),
+      body: SafeArea(
+        child: Container(
+            color: IColors.bgEgg,
+            child: Column(children: [_imageView(context), _titleView()])),
+      ),
     );
   }
 

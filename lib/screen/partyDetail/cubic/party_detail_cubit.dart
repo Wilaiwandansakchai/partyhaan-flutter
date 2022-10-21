@@ -1,13 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:equatable/equatable.dart';
 import 'package:partyhaan/models/party_model.dart';
 
 import '../../../models/user_model.dart';
 import '../../../repositories/party_repository.dart';
 
 part 'party_detail_state.dart';
-
-enum userStatus { none, join, host }
 
 class PartyDetailCubit extends Cubit<PartyDetailState> {
   final PartyRepository _partyRepository;
@@ -18,7 +16,7 @@ class PartyDetailCubit extends Cubit<PartyDetailState> {
       {required Party party, required User user})
       : _party = party,
         _user = user,
-        super(PartyDetailInitial());
+        super(PartyDetailState());
 
   Future<void> joinParty() async {
     try {
@@ -34,8 +32,21 @@ class PartyDetailCubit extends Cubit<PartyDetailState> {
         memberSet.add(myId);
         userMemberList.add(myId);
       }
+      await _partyRepository.joinParty(
+          party: _party, memberList: userMemberList);
 
-      await _partyRepository.joinParty(party: _party, memberList: userMemberList);
-    } catch (_) {}
+      emit(PartyDetailSuccessState());
+    } catch (_) {
+      emit(PartyDetailFailState());
+    }
+  }
+
+  Future<void> closeParty() async {
+    try {
+      await _partyRepository.deleteParty(party: _party);
+      emit(PartyDetailSuccessState());
+    } catch (_) {
+      emit(PartyDetailFailState());
+    }
   }
 }

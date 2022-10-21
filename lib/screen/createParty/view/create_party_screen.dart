@@ -29,7 +29,8 @@ class CreatePartyScreen extends StatelessWidget {
           ),
           bottomNavigationBar: const _BottomNav(),
           body: SafeArea(
-            child: Container(color: IColors.bgEgg,
+            child: Container(
+                color: IColors.bgEgg,
                 padding: const EdgeInsets.only(
                     right: IValue.mainPaddingRL, left: IValue.mainPaddingRL),
                 child: const PartyForm()),
@@ -54,7 +55,7 @@ class _BottomNav extends StatelessWidget {
                   borderRadius: BorderRadius.circular(IValue.btnRadius)),
               child: TextButton(
                 onPressed: () => context.read<CreatePartyCubit>().createParty(),
-                child: Text(IText.partyJoinBtn, style: ITextStyles.partyBtn),
+                child: Text(IText.createPartyBtn, style: ITextStyles.partyBtn),
               ))),
     );
   }
@@ -67,11 +68,15 @@ class PartyForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<CreatePartyCubit, CreatePartyState>(
         listener: (context, state) {
-          // if (state is CreateSuccessState) {
-          //   Navigator.of(context).pop();
-          // } else if (state is CreateFailState) {
-          //   print("CreateFailed");
-          // }
+          if (state.status == CreatePartyStatus.error) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(content: Text(IText.errorText)),
+              );
+          } else if (state.status == CreatePartyStatus.success) {
+            Navigator.of(context).pop();
+          }
         },
         child: SingleChildScrollView(
           child: Column(
@@ -104,7 +109,7 @@ class _NameInput extends StatelessWidget {
           onChanged: (value) {
             context.read<CreatePartyCubit>().nameChanged(value);
           },
-          decoration: const InputDecoration(labelText: "Name"),
+          decoration: const InputDecoration(labelText: IText.createPartyName),
         );
       },
     );
@@ -123,7 +128,8 @@ class _ProductInput extends StatelessWidget {
           onChanged: (value) {
             context.read<CreatePartyCubit>().productChanged(value);
           },
-          decoration: const InputDecoration(labelText: "Product"),
+          decoration:
+              const InputDecoration(labelText: IText.createPartyProduct),
         );
       },
     );
@@ -140,10 +146,14 @@ class _MaxCountInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           keyboardType: TextInputType.number,
-            onChanged: (value) {
-            context.read<CreatePartyCubit>().maxCountChanged(0);
+          onChanged: (value) {
+            if (value != "") {
+              var number = int.parse(value);
+              context.read<CreatePartyCubit>().maxCountChanged(number);
+            }
           },
-          decoration: const InputDecoration(labelText: "MaxCount"),
+          decoration:
+              const InputDecoration(labelText: IText.createPartyMaxCount),
         );
       },
     );
@@ -161,9 +171,12 @@ class _PriceInput extends StatelessWidget {
         return TextField(
           keyboardType: TextInputType.number,
           onChanged: (value) {
-            context.read<CreatePartyCubit>().maxCountChanged(200);
+            if (value != "") {
+              var number = int.parse(value);
+              context.read<CreatePartyCubit>().priceChanged(number);
+            }
           },
-          decoration: const InputDecoration(labelText: "Price"),
+          decoration: const InputDecoration(labelText: IText.createPartyPrice),
         );
       },
     );
@@ -182,7 +195,7 @@ class _ImageInput extends StatelessWidget {
           onChanged: (value) {
             context.read<CreatePartyCubit>().imageChanged(value);
           },
-          decoration: const InputDecoration(labelText: "image"),
+          decoration: const InputDecoration(labelText: IText.createPartyImage),
         );
       },
     );

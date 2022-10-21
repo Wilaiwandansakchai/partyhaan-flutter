@@ -30,8 +30,9 @@ class PartyView extends StatelessWidget {
   }
 
   void _onClickPartyDetail(Party party, BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => PartyDetailScreen(party: party)));
+    Navigator.of(context).push<void>(
+      PartyDetailScreen.route(party),
+    );
   }
 }
 
