@@ -8,25 +8,28 @@ class CreateParty extends Equatable {
   final int price;
   final String image;
   final String host;
+  String? imagePath;
 
-  const CreateParty(
+  CreateParty(
       {required this.name,
       required this.product,
       required this.maxCount,
       required this.price,
       required this.image,
+      this.imagePath,
       required this.host});
 
   Map<String, dynamic> toJson() => _$CreatePartyToJson(this);
 
   @override
-  List<Object?> get props => [name, product, maxCount, price, image, host];
+  List<Object?> get props =>
+      [name, product, maxCount, price, image, host, imagePath];
 }
 
 Map<String, dynamic> _$CreatePartyToJson(CreateParty instance) =>
     <String, dynamic>{
       "createDate": Timestamp.now(),
-      "image": instance.image,
+      "image": instance.imagePath,
       "name": instance.name,
       "product": instance.product,
       "maxCount": instance.maxCount,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../blocs/app_bloc/app_bloc.dart';
 import '../../../customs/custom_color.dart';
 import '../../../customs/custom_style.dart';
 import '../../../customs/custom_text.dart';
@@ -17,8 +18,9 @@ class CreatePartyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.select((AppBloc bloc) => bloc.state.user);
     return BlocProvider(
-      create: (_) => CreatePartyCubit(context.read<PartyRepository>()),
+      create: (_) => CreatePartyCubit(context.read<PartyRepository>(), user: user),
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: IColors.nav,
@@ -188,16 +190,8 @@ class _ImageInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreatePartyCubit, CreatePartyState>(
-      buildWhen: (previous, current) => previous.image != current.image,
-      builder: (context, state) {
-        return TextField(
-          onChanged: (value) {
-            context.read<CreatePartyCubit>().imageChanged(value);
-          },
-          decoration: const InputDecoration(labelText: IText.createPartyImage),
-        );
-      },
-    );
+    return TextButton(
+        onPressed: () => context.read<CreatePartyCubit>().imageChanged(),
+        child: const Text(IText.createPartyImage));
   }
 }

@@ -7,15 +7,15 @@ class CreatePartyState extends Equatable {
   final String product;
   final int maxCount;
   final int price;
-  final String image;
+  final String? image;
   final CreatePartyStatus status;
 
   const CreatePartyState(
       {required this.name,
       required this.product,
       required this.maxCount,
-      required this.price,
       required this.image,
+      required this.price,
       required this.status});
 
   factory CreatePartyState.initial() {
@@ -24,8 +24,8 @@ class CreatePartyState extends Equatable {
         product: '',
         maxCount: 0,
         price: 0,
-        image: '',
-        status: CreatePartyStatus.initial);
+        status: CreatePartyStatus.initial,
+        image: '');
   }
 
   @override
@@ -38,7 +38,6 @@ class CreatePartyState extends Equatable {
       int? price,
       String? image,
       CreatePartyStatus? status}) {
-
     return CreatePartyState(
         name: name ?? this.name,
         product: product ?? this.product,
@@ -48,3 +47,4 @@ class CreatePartyState extends Equatable {
         status: status ?? this.status);
   }
 }
+

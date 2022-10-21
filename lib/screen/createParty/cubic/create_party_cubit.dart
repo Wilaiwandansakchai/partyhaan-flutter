@@ -1,15 +1,20 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:partyhaan/models/create_party_model.dart';
 
+import '../../../models/user_model.dart';
 import '../../../repositories/party_repository.dart';
 
 part 'create_party_state.dart';
 
 class CreatePartyCubit extends Cubit<CreatePartyState> {
   final PartyRepository _partyRepository;
+  final User _user;
 
-  CreatePartyCubit(this._partyRepository) : super(CreatePartyState.initial());
+  CreatePartyCubit(this._partyRepository, {required User user})
+      : _user = user,
+        super(CreatePartyState.initial());
 
   void nameChanged(String value) {
     emit(state.copyWith(name: value, status: CreatePartyStatus.initial));
@@ -27,8 +32,15 @@ class CreatePartyCubit extends Cubit<CreatePartyState> {
     emit(state.copyWith(price: value, status: CreatePartyStatus.initial));
   }
 
-  void imageChanged(String value) {
-    emit(state.copyWith(image: value, status: CreatePartyStatus.initial));
+  void imageChanged() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) throw "e";
+      emit(
+          state.copyWith(image: image.path, status: CreatePartyStatus.initial));
+    } catch (_) {
+      emit(state.copyWith(status: CreatePartyStatus.error));
+    }
   }
 
   Future<void> createParty() async {
@@ -41,9 +53,8 @@ class CreatePartyCubit extends Cubit<CreatePartyState> {
         maxCount: state.maxCount,
         price: state.price,
         product: state.product,
-        image:
-            "https://firebasestorage.googleapis.com/v0/b/partyhaan-e8a5c.appspot.com/o/imagecos.jpg?alt=media&token=efb90976-7861-48ae-9cd0-40f65f7fa1ff",
-        host: '',
+        image: state.image!,
+        host: _user.id,
       ));
       emit(state.copyWith(status: CreatePartyStatus.success));
     } catch (_) {}

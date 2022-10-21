@@ -70,7 +70,6 @@ class SignupForm extends StatelessWidget {
   }
 }
 
-
 class _EmailInput extends StatelessWidget {
   const _EmailInput({Key? key}) : super(key: key);
 
@@ -83,7 +82,7 @@ class _EmailInput extends StatelessWidget {
           onChanged: (email) {
             context.read<SignupCubit>().emailChanged(email);
           },
-          decoration: const InputDecoration(labelText: "Email"),
+          decoration: const InputDecoration(labelText: IText.loginEmailHint),
         );
       },
     );
@@ -103,7 +102,7 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (email) {
             context.read<SignupCubit>().passwordChanged(email);
           },
-          decoration: const InputDecoration(labelText: "Password"),
+          decoration: const InputDecoration(labelText: IText.loginPasswordHint),
         );
       },
     );
@@ -130,8 +129,7 @@ class _SignupButton extends StatelessWidget {
                     child: TextButton(
                       onPressed: () =>
                           context.read<SignupCubit>().signupFormSubmitted(),
-                      child: Text(IText.signupBtn,
-                          style: ITextStyles.partyBtn),
+                      child: Text(IText.signupBtn, style: ITextStyles.partyBtn),
                     )));
       },
     );
