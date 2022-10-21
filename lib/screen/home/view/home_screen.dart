@@ -5,7 +5,6 @@ import 'package:partyhaan/screen/home/cubic/home_cubit.dart';
 import 'package:partyhaan/screen/home/view/party_view.dart';
 
 import '../../../blocs/app_bloc/app_bloc.dart';
-import '../../../blocs/party_bloc/party_bloc.dart';
 import '../../../customs/custom_color.dart';
 import '../../../customs/custom_style.dart';
 import '../../../customs/custom_text.dart';
@@ -25,11 +24,8 @@ class HomeScreen extends StatelessWidget {
     PartyRepository partyRepository = PartyRepository();
     return RepositoryProvider.value(
         value: partyRepository,
-        child: BlocProvider(
-          create: (_) => PartyBloc(partyRepository: partyRepository),
-          child: const MaterialApp(
-              debugShowCheckedModeBanner: false, home: HomeView()),
-        ));
+        child: const MaterialApp(
+            debugShowCheckedModeBanner: false, home: HomeView()));
   }
 
 
