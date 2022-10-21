@@ -20,18 +20,13 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> fetchPartyList() async {
     try {
-      _partyListSubscription = _partyRepository.partyList.map((partyList) {
-        final myId = _user.id;
-        return partyList.map((e){
-          final Party party = e;
-          final List<String> userMemberList = party.member;
-          final Set<String> memberSet = userMemberList.map((e) => e).toSet();
-          final bool isMember = memberSet.contains(myId);
-          party.isHost = _user.id == party.host;
-          party.isMember = isMember;
-          return party;
-        }).toList();
-      }).listen((event) => emit(HomeState(partyList: event)));
+      _partyListSubscription = _partyRepository
+          .fetchPartyList(_user)
+          .listen((event) => emit(HomeState(partyList: event)));
     } catch (_) {}
+  }
+
+  Future<void> dispose() async {
+    _partyListSubscription?.cancel();
   }
 }

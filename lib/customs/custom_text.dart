@@ -20,6 +20,7 @@ class IText {
   //
   static const String partyJoinBtn = "เข้าร่วม";
   static const String partyCloseBtn = "ปิดดีล";
+  static const String partyTileCost = "ราคา";
 
   //createParty
   static const String navCreateParty = "สร้างปาร์ตี้";
@@ -35,5 +36,8 @@ class IText {
   //partyDetail
   static const String partyDetailFullCost = "ราคาเต็ม";
   static const String partyDetailCost = "ราคาเมื่อเข้าร่วม";
+  static const String partyDetailCostUnit = "บาท";
+  static const String partyDetailMember = "จำนวนคน";
+
 
 }

@@ -145,11 +145,11 @@ class _PartyDetailView extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text("${IText.partyDetailFullCost} ${_party.price.toString()}",
+              Text("${IText.partyDetailFullCost} ${_party.price.toString()} ${IText.partyDetailCostUnit}",
                   style: ITextStyles.partyDetailFullCost),
-              Text("${IText.partyDetailCost} ${_party.price / _party.count}",
+              Text("${IText.partyDetailCost} ${_party.dividePrice} ${IText.partyDetailCostUnit}",
                   style: ITextStyles.partyDetailCost),
-              Text("${_party.count}/${_party.maxCount}",
+              Text("${IText.partyDetailMember} ${_party.countMember}/${_party.maxCount}",
                   style: ITextStyles.partyTileCount),
             ],
           ),

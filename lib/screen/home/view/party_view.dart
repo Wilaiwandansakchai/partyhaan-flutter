@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:partyhaan/customs/custom_style.dart';
+import 'package:partyhaan/customs/custom_text.dart';
 import 'package:partyhaan/customs/custom_value.dart';
 
 import '../../../models/party_model.dart';
@@ -80,9 +81,9 @@ class _PartyTile extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(party.price.toString(),
+                    Text("${IText.partyTileCost} ${party.dividePrice} ${IText.partyDetailCostUnit} ",
                         style: ITextStyles.partyTilePrice),
-                    Text("${party.count}/${party.maxCount}",
+                    Text("${party.countMember}/${party.maxCount}",
                         style: ITextStyles.partyTileCount),
                   ],
                 ),

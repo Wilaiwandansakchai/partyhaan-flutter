@@ -13,7 +13,7 @@ class ITextStyles {
   const TextStyle(fontSize: 15.0, color: Colors.grey);
 
   static TextStyle partyTilePrice =
-  const TextStyle(fontSize: 20.0, color: IColors.textPrice);
+  const TextStyle(fontSize: 16.0, color: IColors.textPrice);
 
   static TextStyle partyTileCount =
   const TextStyle(fontSize: 15.0, color: Colors.grey);
