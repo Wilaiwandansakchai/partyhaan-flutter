@@ -37,7 +37,11 @@ class LoginForm extends StatelessWidget {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state.status == LoginStatus.error) {
-          //do something when error
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(content: Text(IText.errorText)),
+            );
         }
       },
       child: Container(
@@ -130,13 +134,16 @@ class _LoginButton extends StatelessWidget {
                         color: IColors.btnYellow,
                         borderRadius: BorderRadius.circular(IValue.btnRadius)),
                     child: TextButton(
-                      onPressed: () =>
-                          context.read<LoginCubit>().loginWithCredentials(),
+                      onPressed: () => _onClickLogin(context),
                       child: Text(IText.loginLoginBtn,
                           style: ITextStyles.partyBtn),
                     )));
       },
     );
+  }
+
+  _onClickLogin(BuildContext context) {
+    context.read<LoginCubit>().loginWithCredentials();
   }
 }
 
@@ -148,12 +155,16 @@ class _SignupButton extends StatelessWidget {
     return Align(
         alignment: Alignment.centerRight,
         child: GestureDetector(
-            onTap: () => Navigator.of(context).push<void>(
-                  SignupScreen.route(),
-                ),
+            onTap: () => _onClickOpenSignupScreen(context),
             child: const Padding(
               padding: EdgeInsets.all(IValue.mainPadding),
               child: Text(IText.loginRegisterBtn),
             )));
+  }
+
+  _onClickOpenSignupScreen(BuildContext context) {
+    Navigator.of(context).push<void>(
+      SignupScreen.route(),
+    );
   }
 }

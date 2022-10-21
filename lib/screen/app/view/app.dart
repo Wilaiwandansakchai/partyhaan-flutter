@@ -8,18 +8,15 @@ import '../../../customs/custom_text.dart';
 import '../../../repositories/auth_repository.dart';
 
 class App extends StatelessWidget {
-  final AuthRepository _authRepository;
-
-  const App({Key? key, required AuthRepository authRepository})
-      : _authRepository = authRepository,
-        super(key: key);
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-        value: _authRepository,
+    AuthRepository authRepository = AuthRepository();
+    return RepositoryProvider(
+        create: (context) => authRepository,
         child: BlocProvider(
-          create: (_) => AppBloc(authRepository: _authRepository),
+          create: (_) => AppBloc(authRepository: authRepository),
           child: const AppView(),
         ));
   }

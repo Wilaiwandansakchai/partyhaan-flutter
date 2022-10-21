@@ -7,11 +7,9 @@ import 'app/bloc_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  Bloc.observer = AppBlocObserver();
   await Firebase.initializeApp();
 
-  final AuthRepository authRepository = AuthRepository();
+  Bloc.observer = AppBlocObserver();
 
-  runApp(App(authRepository: authRepository));
+  runApp(const App());
 }

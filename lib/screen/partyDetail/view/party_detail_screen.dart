@@ -17,12 +17,18 @@ class PartyDetailScreen extends StatelessWidget {
       : _party = party,
         super(key: key);
 
+  static Route<void> route(Party party) {
+    return MaterialPageRoute<void>(
+        builder: (_) => PartyDetailScreen(party: party));
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = context.select((AppBloc bloc) => bloc.state.user);
     PartyRepository partyRepository = PartyRepository();
     return BlocProvider(
-        create: (_) => PartyDetailCubit(partyRepository, party: _party, user: user),
+        create: (_) =>
+            PartyDetailCubit(partyRepository, party: _party, user: user),
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: IColors.nav,
@@ -105,8 +111,10 @@ class _PartyDetailView extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text("ราคาเต็ม ${_party.price.toString()}", style: ITextStyles.partyTilePrice),
-              Text("ราคาเมื่อเข้าร่วม ${_party.price/_party.count}", style: ITextStyles.partyTilePrice),
+              Text("${IText.partyDetailFullCost} ${_party.price.toString()}",
+                  style: ITextStyles.partyDetailFullCost),
+              Text("${IText.partyDetailCost} ${_party.price / _party.count}",
+                  style: ITextStyles.partyDetailCost),
               Text("${_party.count}/${_party.maxCount}",
                   style: ITextStyles.partyTileCount),
             ],

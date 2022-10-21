@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:partyhaan/screen/signup/cubic/signup_cubit.dart';
 
 import '../../../customs/custom_color.dart';
+import '../../../customs/custom_style.dart';
 import '../../../customs/custom_text.dart';
 import '../../../customs/custom_value.dart';
 import '../../../repositories/auth_repository.dart';
@@ -20,8 +21,10 @@ class SignupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.white, //modify arrow color from here..
+        backgroundColor: IColors.nav,
+        title: Text(
+          IText.navSignup,
+          style: ITextStyles.navTitle,
         ),
       ),
       body: BlocProvider(
@@ -42,21 +45,19 @@ class SignupForm extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Sign Up Failure')),
+              const SnackBar(content: Text(IText.errorText)),
             );
         } else if (state.status == SignupStatus.success) {
           Navigator.of(context).pop();
         }
       },
       child: Container(
-        color: IColors.bgBlue,
+        color: IColors.bgEgg,
         padding: const EdgeInsets.only(
             right: IValue.mainPaddingRL, left: IValue.mainPaddingRL),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            _TilteText(),
-            SizedBox(height: IValue.loginLogoPaddingB),
             _EmailInput(),
             SizedBox(height: 5),
             _PasswordInput(),
@@ -69,17 +70,6 @@ class SignupForm extends StatelessWidget {
   }
 }
 
-class _TilteText extends StatelessWidget {
-  const _TilteText({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Text(
-      IText.loginRegisterBtn,
-      style: TextStyle(fontSize: 20),
-    );
-  }
-}
 
 class _EmailInput extends StatelessWidget {
   const _EmailInput({Key? key}) : super(key: key);
@@ -130,17 +120,19 @@ class _SignupButton extends StatelessWidget {
       builder: (context, state) {
         return state.status == SignupStatus.submitting
             ? const CircularProgressIndicator()
-            : ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  minimumSize:
-                      const Size.fromHeight(IValue.mainBtnHeight), // NEW
-                ),
-                onPressed: () {
-                  context.read<SignupCubit>().signupFormSubmitted();
-                },
-                child: const Text(IText.signupBtn),
-              );
+            : Padding(
+                padding: const EdgeInsets.all(IValue.mainPadding),
+                child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: IColors.btnYellow,
+                        borderRadius: BorderRadius.circular(IValue.btnRadius)),
+                    child: TextButton(
+                      onPressed: () =>
+                          context.read<SignupCubit>().signupFormSubmitted(),
+                      child: Text(IText.signupBtn,
+                          style: ITextStyles.partyBtn),
+                    )));
       },
     );
   }

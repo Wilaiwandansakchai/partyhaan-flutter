@@ -27,7 +27,8 @@ class HomeScreen extends StatelessWidget {
         value: partyRepository,
         child: BlocProvider(
           create: (_) => PartyBloc(partyRepository: partyRepository),
-          child: const HomeView(),
+          child: const MaterialApp(
+              debugShowCheckedModeBanner: false, home: HomeView()),
         ));
   }
 }
@@ -68,16 +69,14 @@ class HomeView extends StatelessWidget {
           child: SafeArea(
               child: Container(
             color: IColors.bgOrange,
-            child: const Expanded(child: PartyView()),
+            child: const PartyView(),
           ))),
     );
   }
 
   _onClickOpenCreatePartyScreen(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute<CreatePartyScreen>(
-        builder: (_) => RepositoryProvider.value(
-          value: context.read<PartyRepository>(),
-          child: const CreatePartyScreen(),
-        )));
+    Navigator.of(context).push<void>(
+      CreatePartyScreen.route(),
+    );
   }
 }

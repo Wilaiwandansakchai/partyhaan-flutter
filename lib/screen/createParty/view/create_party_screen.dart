@@ -11,19 +11,14 @@ import '../cubic/create_party_cubit.dart';
 class CreatePartyScreen extends StatelessWidget {
   const CreatePartyScreen({Key? key}) : super(key: key);
 
-  static Page<void> page() =>
-      const MaterialPage<void>(child: CreatePartyScreen());
-
   static Route<void> route() {
     return MaterialPageRoute<void>(builder: (_) => const CreatePartyScreen());
   }
 
   @override
   Widget build(BuildContext context) {
-    //TODO
-    PartyRepository partyRepository = PartyRepository();
     return BlocProvider(
-      create: (_) => CreatePartyCubit(partyRepository),
+      create: (_) => CreatePartyCubit(context.read<PartyRepository>()),
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: IColors.nav,

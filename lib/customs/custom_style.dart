@@ -21,4 +21,10 @@ class ITextStyles {
   static TextStyle partyBtn =
   const TextStyle(fontSize: 15.0, color: Colors.white);
 
+  //party detail
+  static TextStyle partyDetailFullCost =
+  const TextStyle(fontSize: 15.0, color: IColors.textPrice);
+
+  static TextStyle partyDetailCost =
+  const TextStyle(fontSize: 18.0, color: IColors.textPrice);
 }
