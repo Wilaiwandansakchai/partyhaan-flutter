@@ -40,7 +40,10 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: IColors.nav,
-        title: Text(IText.navParty,style: ITextStyles.navTitle,),
+        title: Text(
+          IText.navParty,
+          style: ITextStyles.navTitle,
+        ),
         actions: [
           IconButton(
               onPressed: () =>
@@ -50,10 +53,11 @@ class HomeView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
-        onPressed: () => Navigator.of(context).push<void>(
-          CreatePartyScreen.route(),
+        onPressed: () => _onClickOpenCreatePartyScreen(context),
+        child: const Icon(
+          Icons.add,
+          color: Colors.grey,
         ),
-        child: const Icon(Icons.add,color: Colors.grey,),
       ), // Thi
       body: BlocProvider(
           create: (_) {
@@ -69,4 +73,11 @@ class HomeView extends StatelessWidget {
     );
   }
 
+  _onClickOpenCreatePartyScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute<CreatePartyScreen>(
+        builder: (_) => RepositoryProvider.value(
+          value: context.read<PartyRepository>(),
+          child: const CreatePartyScreen(),
+        )));
+  }
 }
