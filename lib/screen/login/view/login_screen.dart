@@ -42,6 +42,8 @@ class LoginForm extends StatelessWidget {
             ..showSnackBar(
               const SnackBar(content: Text(IText.errorText)),
             );
+        }else if(state.status == LoginStatus.success){
+          //LOGIN success
         }
       },
       child: Container(

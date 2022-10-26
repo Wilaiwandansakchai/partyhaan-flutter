@@ -11,6 +11,7 @@ abstract class AuthService {
   Future<void> logOut();
 
   Stream<User> get user;
+
 }
 
 class AuthServiceImpl implements AuthService {
