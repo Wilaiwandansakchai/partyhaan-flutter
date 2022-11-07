@@ -32,9 +32,13 @@ class PartyServiceImpl implements PartyService {
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
-        Party party = Party.fromJson(doc.data());
-        party.id = doc.id;
-        return party;
+        if (doc.exists) {
+          Party party = Party.fromJson(doc.data());
+          party.id = doc.id;
+          return party;
+        } else {
+          throw "";
+        }
       }).toList();
     });
   }

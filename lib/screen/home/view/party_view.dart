@@ -15,6 +15,7 @@ class PartyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
       List<Party> partyList = state.partyList;
+
       return ListView.builder(
           padding: const EdgeInsets.all(IValue.mainPadding),
           itemCount: partyList.length,

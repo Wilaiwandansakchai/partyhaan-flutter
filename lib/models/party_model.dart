@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
 
-class Party {
+class Party extends Equatable {
   final Timestamp createDate;
   final String image;
   final String name;
@@ -48,7 +49,7 @@ class Party {
 
   List<String> get userMember => member;
 
-  factory Party.fromJson(Map<String, dynamic> json) => _$PartyFromJson(json);
+  factory Party.fromJson(Map<String, dynamic> json) =>  _$PartyFromJson(json);
 }
 
 Party _$PartyFromJson(Map<String, dynamic> json) {
