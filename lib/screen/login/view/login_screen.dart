@@ -24,13 +24,15 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
           create: (_) => LoginCubit(context.read<AuthRepository>()),
-          child: const LoginForm()),
+          child: LoginForm()),
     );
   }
 }
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  LoginForm({Key? key}) : super(key: key);
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class LoginForm extends StatelessWidget {
             ..showSnackBar(
               const SnackBar(content: Text(IText.errorText)),
             );
-        }else if(state.status == LoginStatus.success){
+        } else if (state.status == LoginStatus.success) {
           //LOGIN success
         }
       },
@@ -50,19 +52,22 @@ class LoginForm extends StatelessWidget {
         color: IColors.bgBlue,
         padding: const EdgeInsets.only(
             right: IValue.mainPaddingRL, left: IValue.mainPaddingRL),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            _LogoImage(),
-            SizedBox(height: IValue.loginLogoPaddingB),
-            _EmailInput(),
-            SizedBox(height: IValue.mainBoxHeight),
-            _PasswordInput(),
-            SizedBox(height: IValue.mainBoxHeight),
-            _LoginButton(),
-            SizedBox(height: IValue.mainBoxHeight),
-            _SignupButton()
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const _LogoImage(),
+              const SizedBox(height: IValue.loginLogoPaddingB),
+              const _EmailInput(),
+              const SizedBox(height: IValue.mainBoxHeight),
+              const _PasswordInput(),
+              const SizedBox(height: IValue.mainBoxHeight),
+              _LoginButton(form: _formKey),
+              const SizedBox(height: IValue.mainBoxHeight),
+              const _SignupButton()
+            ],
+          ),
         ),
       ),
     );
@@ -87,9 +92,19 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return TextField(
+        return TextFormField(
+          keyboardType: TextInputType.emailAddress,
           onChanged: (email) {
             context.read<LoginCubit>().emailChanged(email);
+          },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter some text';
+            }
+            if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+              return "Please enter a valid email address";
+            }
+            return null;
           },
           decoration: const InputDecoration(labelText: IText.loginEmailHint),
         );
@@ -106,9 +121,19 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
+        return TextFormField(
+          keyboardType: TextInputType.visiblePassword,
           onChanged: (password) {
             context.read<LoginCubit>().passwordChanged(password);
+          },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter some text';
+            }
+            if (value.length < 8) {
+              return "Your password must be at least 8 characters long";
+            }
+            return null;
           },
           obscureText: true,
           decoration: const InputDecoration(labelText: IText.loginPasswordHint),
@@ -119,7 +144,11 @@ class _PasswordInput extends StatelessWidget {
 }
 
 class _LoginButton extends StatelessWidget {
-  const _LoginButton({Key? key}) : super(key: key);
+  final GlobalKey<FormState> _form;
+
+  const _LoginButton({Key? key, required GlobalKey<FormState> form})
+      : _form = form,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +174,12 @@ class _LoginButton extends StatelessWidget {
   }
 
   _onClickLogin(BuildContext context) {
-    context.read<LoginCubit>().loginWithCredentials();
+    if (_form.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Processing Data')),
+      );
+    }
+    // context.read<LoginCubit>().loginWithCredentials();
   }
 }
 
