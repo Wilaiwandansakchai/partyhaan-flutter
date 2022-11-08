@@ -39,5 +39,10 @@ class IText {
   static const String partyDetailCostUnit = "บาท";
   static const String partyDetailMember = "จำนวนคน";
 
+  //hintText
+  static const String txtTextHint = "Please enter some text";
+  static const String txtPasswordHint = "Your password must be at least 8 characters long";
+
+
 
 }

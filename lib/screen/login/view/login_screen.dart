@@ -99,10 +99,10 @@ class _EmailInput extends StatelessWidget {
           },
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter some text';
+              return IText.txtTextHint;
             }
             if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-              return "Please enter a valid email address";
+              return IText.txtPasswordHint;
             }
             return null;
           },
@@ -128,10 +128,10 @@ class _PasswordInput extends StatelessWidget {
           },
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter some text';
+              return IText.txtTextHint;
             }
             if (value.length < 8) {
-              return "Your password must be at least 8 characters long";
+              return IText.txtPasswordHint;
             }
             return null;
           },

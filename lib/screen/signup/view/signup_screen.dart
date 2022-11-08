@@ -29,13 +29,14 @@ class SignupScreen extends StatelessWidget {
       ),
       body: BlocProvider(
           create: (_) => SignupCubit(context.read<AuthRepository>()),
-          child: const SignupForm()),
+          child: SignupForm()),
     );
   }
 }
 
 class SignupForm extends StatelessWidget {
-  const SignupForm({Key? key}) : super(key: key);
+  SignupForm({Key? key}) : super(key: key);
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,15 +56,18 @@ class SignupForm extends StatelessWidget {
         color: IColors.bgEgg,
         padding: const EdgeInsets.only(
             right: IValue.mainPaddingRL, left: IValue.mainPaddingRL),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            _EmailInput(),
-            SizedBox(height: IValue.mainBoxHeight),
-            _PasswordInput(),
-            SizedBox(height: IValue.mainBoxHeight),
-            _SignupButton()
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const _EmailInput(),
+              const SizedBox(height: IValue.mainBoxHeight),
+              const _PasswordInput(),
+              const SizedBox(height: IValue.mainBoxHeight),
+              _SignupButton(form: _formKey)
+            ],
+          ),
         ),
       ),
     );
@@ -78,7 +82,17 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<SignupCubit, SignupState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return TextField(
+        return TextFormField(
+          keyboardType: TextInputType.emailAddress,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return IText.txtTextHint;
+            }
+            if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+              return IText.txtPasswordHint;
+            }
+            return null;
+          },
           onChanged: (email) {
             context.read<SignupCubit>().emailChanged(email);
           },
@@ -97,10 +111,19 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<SignupCubit, SignupState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
+        return TextFormField(
           obscureText: true,
           onChanged: (email) {
             context.read<SignupCubit>().passwordChanged(email);
+          },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return IText.txtTextHint;
+            }
+            if (value.length < 8) {
+              return IText.txtPasswordHint;
+            }
+            return null;
           },
           decoration: const InputDecoration(labelText: IText.loginPasswordHint),
         );
@@ -110,7 +133,11 @@ class _PasswordInput extends StatelessWidget {
 }
 
 class _SignupButton extends StatelessWidget {
-  const _SignupButton({Key? key}) : super(key: key);
+  final GlobalKey<FormState> _form;
+
+  const _SignupButton({Key? key, required GlobalKey<FormState> form})
+      : _form = form,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -127,11 +154,16 @@ class _SignupButton extends StatelessWidget {
                         color: IColors.btnYellow,
                         borderRadius: BorderRadius.circular(IValue.btnRadius)),
                     child: TextButton(
-                      onPressed: () =>
-                          context.read<SignupCubit>().signupFormSubmitted(),
+                      onPressed: () => _onClickSignup(context),
                       child: Text(IText.signupBtn, style: ITextStyles.partyBtn),
                     )));
       },
     );
+  }
+
+  _onClickSignup(BuildContext context) {
+    if (_form.currentState!.validate()) {
+      context.read<SignupCubit>().signupFormSubmitted();
+    }
   }
 }
