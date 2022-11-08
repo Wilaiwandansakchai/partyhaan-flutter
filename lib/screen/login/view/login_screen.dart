@@ -175,11 +175,8 @@ class _LoginButton extends StatelessWidget {
 
   _onClickLogin(BuildContext context) {
     if (_form.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
-      );
+      context.read<LoginCubit>().loginWithCredentials();
     }
-    // context.read<LoginCubit>().loginWithCredentials();
   }
 }
 
