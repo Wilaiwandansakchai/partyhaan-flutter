@@ -1,3 +1,5 @@
 # partyhaan
 
-A Flutter project use Firebase Cloud Firestore
+A Flutter project 
+*Firebase Cloud Firestore
+*Flutter Bloc
